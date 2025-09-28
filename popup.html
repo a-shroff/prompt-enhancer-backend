@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prompt Enhancer</title>
+  <script src="popup.js" defer></script>
+  <style>
+    body { font-family: sans-serif; width: 300px; padding: 10px; }
+    textarea { width: 100%; height: 80px; }
+    #output { margin-top: 10px; background: #f0f0f0; padding: 10px; min-height: 80px; white-space: pre-wrap; }
+    button { margin-top: 10px; width: 100%; }
+    #copyBtn { background-color: #4CAF50; color: white; }
+  </style>
+</head>
+<body>
+  <h3>Enter a Rough Prompt</h3>
+  <textarea id="userPrompt" placeholder="e.g. write a tweet about ai"></textarea>
+  <button id="enhanceBtn">Enhance Prompt</button>
+  <h4>Enhanced Prompt:</h4>
+  <div id="output">...</div>
+  <button id="copyBtn">Copy Enhanced Prompt</button>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Prompt Enhancer",
+  "version": "1.0",
+  "description": "Improve AI prompts using OpenAI",
+  "permissions": ["scripting", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Prompt Enhancer"
+  },
+  "host_permissions": ["http://127.0.0.1:5000/"]
+}
