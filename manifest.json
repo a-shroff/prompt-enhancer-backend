@@ -2,14 +2,25 @@
   "manifest_version": 3,
   "name": "Prompt Enhancer",
   "version": "1.0",
-  "description": "Enhances your writing prompts using AI",
-  "permissions": ["scripting", "clipboardWrite"],
-  "host_permissions": ["https://prompt-enhancer-backend.onrender.com/"],
+  "description": "Enhance your rough prompts into detailed AI-ready prompts.",
+  "permissions": [
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://prompt-enhancer-backend.onrender.com/*"
+  ],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon.png"
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
   },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://prompt-enhancer-backend.onrender.com"
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
