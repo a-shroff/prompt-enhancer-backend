@@ -4,13 +4,11 @@ from openai import OpenAI
 import os
 from flask_cors import CORS
 
-# Load environment variables from .env file
 load_dotenv()
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -21,6 +19,7 @@ def enhance_prompt():
     try:
         data = request.get_json()
         user_prompt = data.get("prompt", "")
+        print("Received prompt:", user_prompt)  # Logging
 
         if not user_prompt:
             return jsonify({"error": "No prompt provided"}), 400
@@ -51,8 +50,10 @@ def enhance_prompt():
         return jsonify({"enhanced_prompt": improved_prompt})
 
     except Exception as e:
+        print("Error:", str(e))
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
+
 
