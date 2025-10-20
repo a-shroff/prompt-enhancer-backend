@@ -1,37 +1,28 @@
-document.getElementById('enhanceBtn').addEventListener('click', async () => {
-  const prompt = document.getElementById('userPrompt').value;
-  const output = document.getElementById('output');
-  output.textContent = 'Thinking...';
+document.getElementById('enhance-button').addEventListener('click', async () => {
+    const prompt = document.getElementById('prompt-input').value;
 
-  try {
-const response = await fetch('https://prompt-enhancer-backend.onrender.com/enhance', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt })
-    });
+    try {
+        const response = await fetch('https://prompt-enhancer-backend.onrender.com/enhance', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }),
+        });
 
-    const data = await response.json();
-    output.textContent = data.enhanced_prompt || data.error;
-  } catch (err) {
-    output.textContent = 'Error connecting to backend';
-  }
+        if (!response.ok) {
+            throw new Error('Backend error');
+        }
+
+        const data = await response.json();
+        document.getElementById('enhanced-output').innerText = data.enhanced_prompt || "No response from backend";
+    } catch (error) {
+        document.getElementById('enhanced-output').innerText = 'Error connecting to backend';
+        console.error('Fetch error:', error);
+    }
 });
 
-// Copy button functionality
-document.getElementById('copyBtn').addEventListener('click', () => {
-  const text = document.getElementById('output').textContent;
-  if (text && text !== '...' && text !== 'Thinking...') {
-    navigator.clipboard.writeText(text)
-      .then(() => {
-        alert('Enhanced prompt copied to clipboard!');
-      })
-      .catch(() => {
-        alert('Failed to copy text.');
-      });
-  } else {
-    alert('No enhanced prompt to copy yet.');
-  }
+document.getElementById('copy-button').addEventListener('click', () => {
+    const enhancedPrompt = document.getElementById('enhanced-output').innerText;
+    navigator.clipboard.writeText(enhancedPrompt);
 });
-Replaced localhost URL with live Render backend URL
