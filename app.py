@@ -7,25 +7,27 @@ import os
 # Load environment variables
 load_dotenv()
 
-# Initialize Flask app and CORS
+# Initialize Flask app
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)  # Allows all origins by default
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-@app.route('/', methods=['GET'])
+@app.route("/", methods=["GET"])
 def home():
     return "Prompt Enhancer Backend is Live!"
 
-@app.route('/enhance', methods=['POST'])
+@app.route("/enhance", methods=["POST"])
 def enhance_prompt():
     try:
         data = request.get_json()
-        user_prompt = data.get("prompt", "")
+        if not data or "prompt" not in data:
+            return jsonify({"error": "Missing prompt"}), 400
 
+        user_prompt = data["prompt"].strip()
         if not user_prompt:
-            return jsonify({"error": "No prompt provided"}), 400
+            return jsonify({"error": "Prompt is empty"}), 400
 
         system_prompt = (
             "You are an elite prompt engineer tasked with transforming vague or short prompts "
@@ -49,13 +51,12 @@ def enhance_prompt():
             temperature=0.7
         )
 
-        improved_prompt = response.choices[0].message.content.strip()
-        return jsonify({"enhanced_prompt": improved_prompt})
+        enhanced = response.choices[0].message.content.strip()
+        return jsonify({"enhanced_prompt": enhanced})
 
     except Exception as e:
-        print("Error in /enhance route:", str(e))
-        return jsonify({"error": str(e)}), 500
-
+        print("❌ Backend error:", e)
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
