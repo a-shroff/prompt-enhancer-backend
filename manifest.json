@@ -1,12 +1,33 @@
 {
-  "manifest_version": 3,
   "name": "Prompt Enhancer",
+  "description": "Enhance your prompts using an external backend API.",
   "version": "1.0",
-  "description": "Improve AI prompts using OpenAI",
-  "permissions": ["scripting", "activeTab"],
+  "manifest_version": 3,
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://prompt-enhancer-backend.onrender.com/*"
+  ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Prompt Enhancer"
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
   },
-  "host_permissions": ["http://127.0.0.1:5000/"]
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://prompt-enhancer-backend.onrender.com"
+  }
 }
