@@ -4,7 +4,7 @@ document.getElementById('enhanceBtn').addEventListener('click', async () => {
   output.textContent = 'Thinking...';
 
   try {
-    const response = await fetch('http://127.0.0.1:5000/enhance', {
+const response = await fetch('https://prompt-enhancer-backend.onrender.com/enhance', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,3 +34,4 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     alert('No enhanced prompt to copy yet.');
   }
 });
+Replaced localhost URL with live Render backend URL
