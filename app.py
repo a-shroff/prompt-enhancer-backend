@@ -10,7 +10,11 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
+
+@app.route('/', methods=['GET'])
+def home():
+    return 'Prompt Enhancer Backend is Live!'
 
 @app.route('/enhance', methods=['POST'])
 def enhance_prompt():
@@ -39,7 +43,7 @@ def enhance_prompt():
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            max_tokens=500,  # longer outputs
+            max_tokens=500,
             temperature=0.7
         )
 
@@ -51,3 +55,4 @@ def enhance_prompt():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
+
